@@ -11,6 +11,11 @@
 
 #pragma once
 #include <stdio.h>
+#include "catDatabase.h"
+
+const char* genderName (const enum genderType gender);
+const char* breedName (const enum breedType breed);
+const char* colorName (const enum color collarColor);
 
 extern void printCat(const size_t index);
 extern void printAllCats();
