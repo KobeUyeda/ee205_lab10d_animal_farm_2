@@ -10,40 +10,30 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "addCats.h"
 #include "catDatabase.h"
-#include "config.h"
-#include <string.h>
-#include <stdio.h>
+#include <cassert>
+#include <iostream>
 
-int addCat(
-        const char name[],
-        const enum genderType gender,
-        const enum breedType breed,
-        const bool isFixed,
-        const float weight,
-        const enum color collarColor1,
-        const enum color collarColor2,
-        const unsigned long long license
-){
-    if (isNameValid(name) == false || isWeightValid(weight) == false || isDatabaseFull() || isDatabaseValid() == false){
-#ifdef DEBUG
-        printf("Name Valid: %d, Weight Valid: %d, Database Full: %d, database is Valid: %d\n", isNameValid(name) == false, isWeightValid(weight)==false, isDatabaseFull(), isDatabaseValid()==false);
-#endif
-        fprintf(stderr, "%s ...One of your inputs were invalid or issue with database look above to see all problems:\n", ADD_CATS_FILE_NAME);
-        return -1;
+bool addCat(Cat* newCat){
+    assert(newCat != nullptr);
+    newCat->validate();
+
+    if (inTheDatabase(newCat)){
+        throw std::logic_error(ADD_CATS_FILE_NAME ": This Cat already exists within the database");
     }
 
-    strcpy(catLists[amountOfCats].name, name);
+    assert(validateDatabase());
 
-    catLists[amountOfCats].gender       = gender;
-    catLists[amountOfCats].breed        = breed;
-    catLists[amountOfCats].isFixed      = isFixed;
-    catLists[amountOfCats].weight       = weight;
-    catLists[amountOfCats].collarColor1 = collarColor1;
-    catLists[amountOfCats].collarColor2 = collarColor2;
-    catLists[amountOfCats].license      = license;
-
+    newCat->next = catDatabaseHeadPointer;
+    catDatabaseHeadPointer = newCat;
     amountOfCats++;
-    return (amountOfCats - 1);
+
+    assert(validateDatabase());
+
+    #ifdef DEBUG
+        std::cout << ADD_CATS_FILE_NAME << ": Cat " << newCat->name << "was just added to the database" << std::endl;
+    #endif
+
+    return true;
 }
 
 

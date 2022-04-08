@@ -10,5 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-extern void deleteAllCats();
-extern int deleteCat(int index);
+#include "Cat.h"
+
+extern bool deleteCat(Cat* catPointer);
+extern bool deleteAllCats();

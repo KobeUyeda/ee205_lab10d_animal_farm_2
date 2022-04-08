@@ -11,40 +11,55 @@
 
 #include "catDatabase.h"
 #include "config.h"
-#include <string.h>
+#include <cassert>
+#include <stdexcept>
 
-void deleteAllCats(){
-    resetDataBase();
+bool deleteCat(Cat* catPointer){
+    assert(validateDatabase());
+    assert(catPointer != nullptr);
+    if(catPointer == catDatabaseHeadPointer){
+        catDatabaseHeadPointer = catDatabaseHeadPointer->next;
+        delete catPointer;
+        amountOfCats--;
+        assert(validateDatabase());
+        #ifdef DEBUG
+            std::cout << DELETE_CATS_FILE_NAME << ": The cat Pointer has been deleted from the database " << std::endl;
+        #endif
+        return true;
+    }
+
+    Cat* iterateThroughCat = catDatabaseHeadPointer;
+    while(iterateThroughCat != nullptr){
+        if(iterateThroughCat->next == catPointer){
+            iterateThroughCat->next = catPointer->next;
+            delete catPointer;
+            amountOfCats--;
+            assert(validateDatabase());
+            #ifdef DEBUG
+                std::cout << DELETE_CATS_FILE_NAME << ": The cat Pointer has been deleted from the database " << std::endl;
+            #endif
+            return true;
+        }
+        iterateThroughCat = iterateThroughCat->next;
+    }
+
+    std::cout << DELETE_CATS_FILE_NAME << " deleteCatError: The pointer (" << catPointer << ") does not exist within the database, was not able to delete cat" << std::endl;
+    return false;
 }
 
-int deleteCat(int index){
-    if (isIndexValid(index) == false){
-#ifdef DEBUG
-        printf("Index Valid: %d\n", isIndexValid(index));
-#endif
-        fprintf(stderr, "%s Delete Cat ERROR: The index is not valid for more detail look above.\n", DELETE_CATS_FILE_NAME);
-        return -1;
+bool deleteAllCats(){
+    Cat* iterateThroughCat = catDatabaseHeadPointer;
+    while(iterateThroughCat != nullptr){
+        bool catDeleted = deleteCat(iterateThroughCat);
+        if (!catDeleted){
+            #ifdef DEBUG
+                std::cout << DELETE_CATS_FILE_NAME << ": There seems to have been an error " << std::endl;
+            #endif
+            return false;
+        }
     }
-
-    for(size_t i = index; i < amountOfCats; i++){
-        strcpy(catLists[i].name, catLists[i+1].name);
-
-        catLists[i].gender       = catLists[i+1].gender;
-        catLists[i].breed        = catLists[i+1].breed;
-        catLists[i].isFixed      = catLists[i+1].isFixed;
-        catLists[i].weight       = catLists[i+1].weight;
-        catLists[i].collarColor1 = catLists[i+1].collarColor1;
-        catLists[i].collarColor2 = catLists[i+1].collarColor2;
-        catLists[i].license      = catLists[i+1].license;
-    }
-    amountOfCats--;
-    catLists[amountOfCats].name[0]      = '\0';
-    catLists[amountOfCats].gender       = (genderType) 0;
-    catLists[amountOfCats].breed        = (breedType) 0;
-    catLists[amountOfCats].isFixed      = false;
-    catLists[amountOfCats].weight       = 0.0;
-    catLists[amountOfCats].collarColor1 = (color) 0;
-    catLists[amountOfCats].collarColor2 = (color) 0;
-    catLists[amountOfCats].license      = 0;
-    return 1;
+    #ifdef DEBUG
+        std::cout << DELETE_CATS_FILE_NAME << ": The whole database has been deleted " << std::endl;
+    #endif
+    return true;
 }

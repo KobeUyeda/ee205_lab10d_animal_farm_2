@@ -12,8 +12,7 @@
 #include "catDatabase.h"
 #include "reportCats.h"
 #include "config.h"
-#include <stdio.h>
-#include <string.h>
+#include <cassert>
 
 // ***** ENUM print conversion function *****
 
@@ -48,7 +47,7 @@ const char* breedName (const enum breedType breed){
 
 }
 
-const char* colorName (const enum color collarColor){
+/*const char* colorName (const enum color collarColor){
     switch (collarColor){
         case 0:
             return "Black";
@@ -65,50 +64,31 @@ const char* colorName (const enum color collarColor){
     }
     return "";
 
-}
+}*/
 
 // ***** Report functions *****
-void printCat(const size_t index){
-    if (isIndexValid(index) == false){
-        fprintf(stderr, "%s ...animalFarm0: Bad cat [%lu] \n", REPORT_CATS_FILE_NAME, index);
-    }
-    else {
-        printf("cat index = [%lu] name=[%s] gender=[%s] breed=[%s] isFixed=[%d] weight=[%f] color1=[%s] color2=[%s] license=[%lld]\n",
-               index,
-               catLists[index].name,
-               genderName(catLists[index].gender),
-               breedName(catLists[index].breed),
-               catLists[index].isFixed,
-               catLists[index].weight,
-               colorName(catLists[index].collarColor1),
-               colorName(catLists[index].collarColor2),
-               catLists[index].license
-        );
-    }
-}
 
 void printAllCats(){
-    for (size_t i = 0; i < amountOfCats; i++){
-        printf("cat index = [%lu] name=[%s] gender=[%s] breed=[%s] isFixed=[%d] weight=[%f] color1=[%s] color2=[%s] license=[%lld]\n",
-               i,
-               catLists[i].name,
-               genderName(catLists[i].gender),
-               breedName(catLists[i].breed),
-               catLists[i].isFixed,
-               catLists[i].weight,
-               colorName(catLists[i].collarColor1),
-               colorName(catLists[i].collarColor2),
-               catLists[i].license
-        );
+    assert(validateDatabase());
+    Cat* iterateThroughCat = catDatabaseHeadPointer;
+    while(iterateThroughCat != nullptr){
+        iterateThroughCat->print();
+        iterateThroughCat = iterateThroughCat->next;
     }
 }
 
-// Used to find the index number if given the cat name
-int findCat(const char name[]){
-    for (size_t i = 0; i < amountOfCats; i++){
-        if (strcmp(name, catLists[i].name) == 0){
-            return i;
+
+Cat* findCatByName(const std::string& nameLookingUp){
+    Cat* iterateThroughCat = catDatabaseHeadPointer;
+    while(iterateThroughCat != nullptr){
+        if (iterateThroughCat->getName() == nameLookingUp){
+            #ifdef DEBUG
+                std::cout << REPORT_CATS_FILE_NAME << ": The cat has been found" << std::endl;
+            #endif
+            return(iterateThroughCat);
         }
+        iterateThroughCat = iterateThroughCat->next;
     }
-    return -1;
+    std::cout << "Name Look Up Error: The name does not exist within the database" << std::endl;
+    return(nullptr);
 }

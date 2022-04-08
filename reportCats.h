@@ -15,8 +15,8 @@
 
 const char* genderName (const enum genderType gender);
 const char* breedName (const enum breedType breed);
-const char* colorName (const enum color collarColor);
+//const char* colorName (const enum color collarColor);    // Commented out since not being used in this code
 
 extern void printCat(const size_t index);
 extern void printAllCats();
-extern int findCat(const char name[]);
+extern Cat* findCatByName(const std::string& nameLookingUp);
