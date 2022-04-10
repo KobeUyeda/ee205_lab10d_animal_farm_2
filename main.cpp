@@ -10,90 +10,78 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "addCats.h"
 #include "deleteCats.h"
 #include "reportCats.h"
-#include "updateCats.h"
 #include "catDatabase.h"
 #include "config.h"
 
-#define FAIL -1
-#define SUCCESS 1
+#define SUCCESS true
 
-#define STRING_FIFTY_ONE_CHARACTERS "543290605644487098442288957842892578701236285adfadd"
 #define STRING_FIFTY_CHARACTERS     "543290605644487098442288957842892578701236285adfad"
 #define EMPTY_STRING                ""
 
 int main() {
-
-    // Initializes the Databse
-    resetDataBase();
-
+    std::cout << "Starting Animal Farm 2" << std::endl;
     // Generates a few cats in the database
-    addCat( "Loki", MALE, PERSIAN, true, 8.5, BLACK, WHITE, 101 ) ;
-    addCat( "Milo", MALE, MANX, true, 7.0, BLACK, RED, 102 ) ;
-    addCat( "Bella", FEMALE, MAINE_COON, true, 18.2, BLACK, BLUE, 103 ) ;
-    addCat( "Kali", FEMALE, SHORTHAIR, false, 9.2, BLACK, GREEN, 104 ) ;
-    addCat( "Trin", FEMALE, MANX, true, 12.2, BLACK, PINK, 105 ) ;
-    addCat( "Chili", UNKNOWN_GENDER, SHORTHAIR, false, 19.0, WHITE, BLACK, 106 ) ;
+    addCat(new Cat( "Loki", MALE, PERSIAN, 8.5)) ;
+    addCat(new Cat( "Milo", MALE, MANX, 7.0)) ;
+    addCat(new Cat( "Bella", FEMALE, MAINE_COON, 18.2 )) ;
+    addCat(new Cat( "Kali", FEMALE, SHORTHAIR, 9.2 )) ;
+    addCat(new Cat( "Trin", FEMALE, MANX, 12.2 )) ;
 
 #ifdef DEBUG
     // Testing the addCat function validators
-      assert( addCat( "Chili", UNKNOWN_GENDER, SHORTHAIR, false, 19.0, WHITE, BLACK, 106 ) == FAIL);                      // Should Fail Repeat Name
-      assert( addCat( STRING_FIFTY_ONE_CHARACTERS, UNKNOWN_GENDER, SHORTHAIR, false, 19.0, WHITE, BLACK, 106 ) == FAIL);  // Should Fail Name longer than 50 char by 1
-      assert( addCat(STRING_FIFTY_CHARACTERS, UNKNOWN_GENDER, SHORTHAIR, false, 0, WHITE, RED, 106) == FAIL);             // Should Fail the weight can not be 0
-      assert( addCat(EMPTY_STRING, UNKNOWN_GENDER, SHORTHAIR, false, 10, WHITE, RED, 106) == FAIL);                       // Should Fail the Name is an empty string
-      int testCat = addCat( STRING_FIFTY_CHARACTERS, UNKNOWN_GENDER, SHORTHAIR, false, 19.0, WHITE, BLACK, 106 );         // Should Succed Name is correct length
-      assert(testCat != FAIL);
-      assert(testCat < MAX_DATABASE_LENGTH);
+    try {
+        addCat(new Cat(STRING_FIFTY_CHARACTERS, MALE, SHORTHAIR, 0));       // Should Fail the weight can not be 0
+        assert(true==false);
+    } catch (std::exception const& error){
 
-      // Finding a Cat and print
-      int catIndex = findCat(STRING_FIFTY_CHARACTERS);
-      assert(catIndex != FAIL);
-      printCat(catIndex);
+    }
+    try {
+        addCat(new Cat(EMPTY_STRING, UNKNOWN_GENDER, SHORTHAIR, 10));       // Should Fail the Name is an empty string
+        assert(true==false);
+    } catch (std::exception const& error){
 
-      // Update Cat testing
-      assert(fixCat(catIndex) == SUCCESS);
-      assert(fixCat(-1) == FAIL);
-      assert(updateCatCollar1(catIndex, RED) == SUCCESS);
-      assert(updateCatCollar1(-1, RED) == FAIL);
-      assert(updateCatCollar2(catIndex, BLUE) == SUCCESS);
-      assert(updateCatCollar2(-1, RED) == FAIL);
-      assert(updateLicense(catIndex, 1001) == SUCCESS);
-      assert(updateLicense(-1, 1001) == FAIL);
-      assert(updateCatWeight(catIndex, 55.5) == SUCCESS);
-      assert(updateCatWeight(catIndex, 0) == FAIL);
-      assert(updateCatWeight(-1, 55.5) == FAIL);
-      assert(updateCatWeight(-1, 0) == FAIL);
-      assert(updateCatName(catIndex, "LINKER") == SUCCESS);
-      assert(updateCatName(catIndex, STRING_FIFTY_ONE_CHARACTERS) == FAIL);
-      assert(updateCatName(catIndex, EMPTY_STRING) == FAIL);
-      assert(updateCatName(-1, STRING_FIFTY_ONE_CHARACTERS) == FAIL);
-      assert(updateCatName(-1, "BABY") == FAIL);
+    }
 
-      // Delete Cat testing
-      assert(deleteCat(-1) == FAIL);
-      assert(deleteCat(catIndex) == SUCCESS);
+    // Finding a Cat and print
+    Cat* catIndex = findCatByName("Chili");
+    assert(catIndex == nullptr);
+    addCat(new Cat( "Chili", FEMALE, MANX, 12.2 )) ;
+    catIndex = findCatByName("Chili");
+    catIndex->print();
+
+    // Update Cat testing
+    assert(catIndex->setCatFixed() == SUCCESS);
+    assert(catIndex->setWeight(55.5) == SUCCESS);
+    assert(catIndex->setWeight(0) != SUCCESS);
+    assert(catIndex->setName("LINKER") == SUCCESS);
+    assert(catIndex->setName("") != SUCCESS);
+    assert(catIndex->setGender(MALE) == SUCCESS);
+    assert(catIndex->setGender(UNKNOWN_GENDER) != SUCCESS);
+    assert(catIndex->setBreed(MANX) == SUCCESS);
+    assert(catIndex->setBreed(UNKOWN_BREED) != SUCCESS);
+
+    // Delete Cat testing
+    assert(deleteCat(catIndex) == SUCCESS);
 
 #endif
 
     printAllCats() ;
-    int kali = findCat( "Kali" ) ;
-    assert( updateCatName( kali, "Chili" ) == FAIL ) ; // duplicate cat name should fail
-    printCat( kali ) ;
-    assert( updateCatName( kali, "Capulet" ) == SUCCESS ) ;
-    assert( updateCatWeight( kali, 9.9 ) == SUCCESS ) ;
-    assert( fixCat( kali ) == SUCCESS ) ;
-    assert( updateCatCollar1( kali, GREEN ) == SUCCESS ) ;
-    assert( updateCatCollar2( kali, GREEN ) == SUCCESS ) ;
-    assert( updateLicense( kali, 201 ) == SUCCESS ) ;
-    printCat( kali ) ;
+    Cat* kali = findCatByName( "Kali" ) ;
+    assert( kali->setName("") != SUCCESS ) ; // string is empty cat name should fail
+    kali->print();
+    assert( kali->setName("Capulet") == SUCCESS ) ;
+    assert( kali->setWeight(9.9) == SUCCESS ) ;
+    assert( kali->setCatFixed() == SUCCESS ) ;
+    kali->print() ;
     printAllCats() ;
     deleteAllCats() ;
     printAllCats() ;
-    printf( "Done with %s\n", MAIN_FILE_NAME ) ;
+    assert(validateDatabase()==true);
+    std::cout << "Done with Animal Farm 2" << std::endl;
     return( EXIT_SUCCESS ) ;
 
 }

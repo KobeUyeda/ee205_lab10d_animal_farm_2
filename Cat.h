@@ -39,7 +39,7 @@ public:
     Cat(const std::string& newName,
         genderType newGender,
         breedType newBreed,
-        Weight newWeight) noexcept;
+        Weight newWeight) ;
 
     // Destructors
     virtual ~Cat();
@@ -66,10 +66,10 @@ public:
     Weight          getWeight()   const noexcept;
 
     //Setter
-    void setName(const std::string& newName)   noexcept;
-    void setGender(enum genderType newGender)  noexcept;
-    void setBreed(enum breedType newBreed)     noexcept;
-    void setCatFixed()                         noexcept;
-    void setWeight(Weight newWeight)           noexcept;
+    bool setName(const std::string& newName)   noexcept;
+    bool setGender(enum genderType newGender)  noexcept;
+    bool setBreed(enum breedType newBreed)     noexcept;
+    bool setCatFixed()                         noexcept;
+    bool setWeight(Weight newWeight)           noexcept;
 
 };

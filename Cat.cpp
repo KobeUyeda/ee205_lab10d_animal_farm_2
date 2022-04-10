@@ -39,14 +39,13 @@ Cat::Cat() noexcept{
 Cat::Cat(const std::string& newName,
          const genderType newGender,
          const breedType newBreed,
-         const Weight newWeight) noexcept{
-    isCatFixed = newGender;
+         const Weight newWeight) {
+    setDataToZero();
     weight     = newWeight;
     gender     = newGender;
     breed      = newBreed;
     name.assign(newName);
 
-    assert( validate() );
     #ifdef DEBUG
         std::cout << CAT_FILE_NAME << ": New cat has been initialized and has valid values" << std::endl;
     #endif
@@ -155,41 +154,66 @@ Weight Cat::getWeight() const noexcept {
 }
 
 // *** Setter methods ***
-void Cat::setName(const std::string& newName) noexcept {
-    validateName(newName);
+bool Cat::setName(const std::string& newName) noexcept {
+    try {
+        validateName(newName);
+    } catch (std::exception const& error) {
+        std::cout << error.what() << std::endl;
+        return false;
+    }
     name.assign(newName);
     #ifdef DEBUG
         std::cout << CAT_FILE_NAME << ": Cat name has been changed to" << name << std::endl;
     #endif
+    return true;
 }
 
-void Cat::setGender(const enum genderType newGender) noexcept {
-    validateGender(newGender);
+bool Cat::setGender(const enum genderType newGender) noexcept {
+    try {
+        validateGender(newGender);
+    } catch (std::exception const& error) {
+        std::cout << error.what() << std::endl;
+        return false;
+    }
     gender = newGender;
     #ifdef DEBUG
         std::cout << CAT_FILE_NAME << ": Cat name has been changed to" << gender << std::endl;
     #endif
+    return true;
 }
 
-void Cat::setBreed(const enum breedType newBreed) noexcept {
-    validateBreed(newBreed);
+bool Cat::setBreed(const enum breedType newBreed) noexcept {
+    try {
+        validateBreed(newBreed);
+    } catch (std::exception const& error) {
+        std::cout << error.what() << std::endl;
+        return false;
+    }
     breed = newBreed;
     #ifdef DEBUG
         std::cout << CAT_FILE_NAME << ": Cat name has been changed to" << breed << std::endl;
     #endif
+    return true;
 }
 
-void Cat::setCatFixed() noexcept {
+bool Cat::setCatFixed() noexcept {
     isCatFixed = true;
     #ifdef DEBUG
         std::cout << CAT_FILE_NAME << ": Cat name has been changed to" << isCatFixed << std::endl;
     #endif
+    return true;
 }
 
-void Cat::setWeight(const Weight newWeight) noexcept {
-    validateWeight(newWeight);
+bool Cat::setWeight(const Weight newWeight) noexcept {
+    try {
+        validateWeight(newWeight);
+    } catch (std::exception const& error) {
+        std::cout << error.what() << std::endl;
+        return false;
+    }
     weight = newWeight;
     #ifdef DEBUG
         std::cout << CAT_FILE_NAME << ": Cat name has been changed to" << weight << std::endl;
     #endif
+    return true;
 }

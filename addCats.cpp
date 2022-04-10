@@ -15,10 +15,12 @@
 
 bool addCat(Cat* newCat){
     assert(newCat != nullptr);
-    newCat->validate();
+    if (!newCat->validate()){
+        throw std::logic_error(ADD_CATS_FILE_NAME ": The cat pointer given has invalid data");
+    }
 
     if (inTheDatabase(newCat)){
-        throw std::logic_error(ADD_CATS_FILE_NAME ": This Cat already exists within the database");
+        throw std::logic_error(ADD_CATS_FILE_NAME ": This pointer already exist within the database");
     }
 
     assert(validateDatabase());
@@ -30,7 +32,7 @@ bool addCat(Cat* newCat){
     assert(validateDatabase());
 
     #ifdef DEBUG
-        std::cout << ADD_CATS_FILE_NAME << ": Cat " << newCat->name << "was just added to the database" << std::endl;
+        std::cout << ADD_CATS_FILE_NAME << ": Cat " << newCat->getName() << "was just added to the database" << std::endl;
     #endif
 
     return true;
