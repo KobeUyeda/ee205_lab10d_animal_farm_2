@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(ee205_lab_08d_animal_farm_1_to_clion)
+project(ee205_lab_08d_animal_farm_2)
 
 
 set(CMAKE_CXX_STANDARD 14)
