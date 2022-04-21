@@ -20,7 +20,6 @@
 #define MAIN_FILE_NAME        "main.cpp"
 
 enum color{BLACK, WHITE, RED, BLUE, GREEN, PINK};
-enum genderType{UNKNOWN_GENDER, MALE, FEMALE};
 enum breedType{UNKOWN_BREED, MAINE_COON, MANX, SHORTHAIR, PERSIAN, SPHYNX};
 typedef float Weight;
 

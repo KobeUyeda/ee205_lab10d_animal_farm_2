@@ -16,6 +16,7 @@
 class Weight{
 public:
     // defining a enum for the class will be referenced outside of the object a bunch
+    typedef float t_weight;
     enum UnitOfWeight {POUND, KILO, SLUG};
     // Constant member valuables
     static const float        UNKNOWN_WEIGHT;
@@ -25,6 +26,7 @@ public:
     static const std::string  POUND_LABEL;
     static const std::string  KILO_LABEL;
     static const std::string  SLUG_LABEL;
+
 
 private:
     // Member value
@@ -89,7 +91,3 @@ inline std::ostream& operator<<( std::ostream& lhs_stream
     }
 }
 
-
-
-
-#endif //EE205_LAB_08D_ANIMAL_FARM_2_WEIGHT_H

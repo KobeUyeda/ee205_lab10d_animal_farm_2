@@ -1,0 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+///         University of Hawaii, College of Engineering
+/// @brief  ee205_lab_08d_animal_farm_2 - EE 205 - Spr 2022
+///
+/// @file animal.cpp
+/// @version 1.0
+///
+/// @author Kobe Uyeda <kobek@hawaii.edu>
+/// @date   21_Apr_2022
+///////////////////////////////////////////////////////////////////////////////
+
+#include "animal.h"
