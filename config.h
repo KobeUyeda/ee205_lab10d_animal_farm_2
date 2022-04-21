@@ -15,6 +15,7 @@
 #define ADD_CATS_FILE_NAME    "addCats.cpp"
 #define REPORT_CATS_FILE_NAME "repoprtCats.cpp"
 #define UPDATE_CATS_FILE_NAME "updateCats.cpp"
+#define NODE_OBJECT           "node.cpp"
 #define DELETE_CATS_FILE_NAME "deleteCats.cpp"
 #define MAIN_FILE_NAME        "main.cpp"
 

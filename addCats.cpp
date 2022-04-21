@@ -5,7 +5,7 @@
 /// @file addCats.cpp
 /// @version 1.0
 ///
-/// @author @todo <@todo@hawaii.edu>
+/// @author Kobe Uyeda <kobek@hawaii.edu>
 /// @date   9_Apr_2022
 ///////////////////////////////////////////////////////////////////////////////
 #include "addCats.h"
