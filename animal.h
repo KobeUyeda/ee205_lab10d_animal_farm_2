@@ -19,6 +19,10 @@ public:
     // Defining an enum only used with Animals and the inherited subclasses from animal
     enum genderType{UNKNOWN_GENDER, MALE, FEMALE};
 
+public:
+    // Used to define the Kingodm Name based on the classes
+    static const std::string KINGDOM_NAME;
+
 private:
     std::string species;
     std::string classification;
@@ -53,5 +57,16 @@ public:
 
     void dump()     const noexcept override;             // prints out all values of the object
     bool validate() const noexcept override;             // Validates to make sure the object is valid
+
+public:
+    static bool validateClassification(const std::string &checkClassification) noexcept;
+    static bool validateSpecies(const std::string &checkSpecies) noexcept;
+
+protected:
+    void setGender(const genderType newGender);
+
+private:
+    static std::string leftTrim(const std::string &stringTrim);
+    static std::string rightTrim(const std::string &stringTrim);
 
 };

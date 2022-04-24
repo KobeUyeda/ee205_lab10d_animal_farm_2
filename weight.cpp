@@ -30,97 +30,54 @@ const std::string Weight::SLUG_LABEL  = "Slug";
 
 // Everything underneath is a constructor for the weight class
 Weight::Weight() noexcept {
-    blsKnown     = false;
-    bHasMax      = false;
-    unitOfWeight = POUND;
-    weight = UNKNOWN_WEIGHT;
-    maxWeight = UNKNOWN_WEIGHT;
-    assert(validate()==true);
-#ifdef DEBUG
-    std::cout << "Weight Object Test: Weight object has just been created" << std::endl;
-    dump();
-#endif
+    assert( validate() );
 }
-Weight::Weight(float newWeight) {
 
-    blsKnown     = false;
-    bHasMax      = false;
-    unitOfWeight = POUND;
-    weight = UNKNOWN_WEIGHT;
-    maxWeight = UNKNOWN_WEIGHT;
-    setWeight(newWeight);
-    assert(validate()==true);
-#ifdef DEBUG
-    std::cout << "Weight Object Test: Weight object has just been created" << std::endl;
-    dump();
-#endif
-}
-Weight::Weight(UnitOfWeight newUnitOfWeight) noexcept{
-    blsKnown     = false;
-    bHasMax      = false;
-    unitOfWeight = newUnitOfWeight;
-    weight = UNKNOWN_WEIGHT;
-    maxWeight = UNKNOWN_WEIGHT;
-    assert(validate()==true);
-#ifdef DEBUG
-    std::cout << "Weight Object Test: Weight object has just been created" << std::endl;
-    dump();
-#endif
-}
-Weight::Weight(float newWeight, UnitOfWeight newUnitOfWeight) {
-    blsKnown     = false;
-    bHasMax      = false;
-    unitOfWeight = newUnitOfWeight;
-    weight = UNKNOWN_WEIGHT;
-    maxWeight = UNKNOWN_WEIGHT;
-    setWeight(newWeight);
-    assert(validate()==true);
-#ifdef DEBUG
-    std::cout << "Weight Object Test: Weight object has just been created" << std::endl;
-    dump();
-#endif
-}
-Weight::Weight(float newWeight, float newMaxWeight) {
-    blsKnown     = false;
-    bHasMax      = false;
-    unitOfWeight = POUND;
-    weight = UNKNOWN_WEIGHT;
-    maxWeight = UNKNOWN_WEIGHT;
-    setMaxWeight(newMaxWeight);
-    setWeight(newWeight);
-    assert(validate()==true);
-#ifdef DEBUG
-    std::cout << "Weight Object Test: Weight object has just been created" << std::endl;
-    dump();
-#endif
-}
-Weight::Weight(UnitOfWeight newUnitOfWeight, float newMaxWeight){
-    blsKnown     = false;
-    bHasMax      = false;
-    unitOfWeight = newUnitOfWeight;
-    weight = UNKNOWN_WEIGHT;
-    maxWeight = UNKNOWN_WEIGHT;
-    setMaxWeight(newMaxWeight);
-    assert(validate()==true);
-#ifdef DEBUG
-    std::cout << "Weight Object Test: Weight object has just been created" << std::endl;
-    dump();
-#endif
-}
-Weight::Weight(float newWeight, UnitOfWeight newUnitOfWeight, float newMaxWeight){
-    blsKnown     = false;
-    bHasMax      = false;
-    unitOfWeight = newUnitOfWeight;
-    weight = UNKNOWN_WEIGHT;
-    maxWeight = UNKNOWN_WEIGHT;
-    setMaxWeight(newMaxWeight);
-    setWeight(newWeight);
 
-    assert(validate()==true);
-#ifdef DEBUG
-    std::cout << "Weight Object Test: Weight object has just been created" << std::endl;
-    dump();
-#endif
+
+Weight::Weight( const float newWeight ) {
+    setWeight( newWeight );
+    assert( validate() );
+}
+
+
+/// Once UnitOfWeight is set, it can't be changed
+Weight::Weight( const Weight::UnitOfWeight newUnitOfWeight ) noexcept {
+    unitOfWeight = newUnitOfWeight ;
+    assert( validate() );
+}
+
+
+/// Once UnitOfWeight is set, it can't be changed
+Weight::Weight( const float newWeight, const Weight::UnitOfWeight newUnitOfWeight ) : Weight( newUnitOfWeight ) {
+    setWeight( newWeight, newUnitOfWeight );
+    assert( validate() );
+}
+
+
+/// Once maxWeight is set, it can't be changed
+Weight::Weight( const float newWeight, const float newMaxWeight ) {
+    setMaxWeight( newMaxWeight );
+    setWeight( newWeight );
+    assert( validate() );
+}
+
+
+/// Once UnitOfWeight is set, it can't be changed.
+/// Once maxWeight is set, it can't be changed.
+Weight::Weight( const Weight::UnitOfWeight newUnitOfWeight, const float newMaxWeight ) : Weight( newUnitOfWeight ) {
+    setMaxWeight( newMaxWeight );
+    assert( validate() );
+}
+
+
+/// Once UnitOfWeight is set, it can't be changed.
+/// Once maxWeight is set, it can't be changed.
+Weight::Weight( const float newWeight
+        ,const Weight::UnitOfWeight newUnitOfWeight
+        ,const float newMaxWeight ) : Weight( newUnitOfWeight, newMaxWeight ) {
+    setWeight( newWeight );
+    assert( validate() );
 }
 // Converter: This converts all the values given into the correct unit
 float Weight::fromKilogramToPound(float kilogram) noexcept {
