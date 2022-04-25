@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///         University of Hawaii, College of Engineering
-/// @brief  ee205_lab_08d_animal_farm_2 - EE 205 - Spr 2022
+/// @brief  ee205_lab_08d_animal_farm_3 - EE 205 - Spr 2022
 ///
 /// @file cat.h
-/// @version 1.0
+/// @version 3.0
 ///
 /// @author Kobe Uyeda <kobek@hawaii.edu>
 /// @date   9_Apr_2022
@@ -33,7 +33,7 @@ public:
         if(!validateName(newName)){
             throw std::out_of_range("The cat Class must have a name");
         }
-        Cat::name = newName;
+        setName(newName);
         Cat::isCatFixed = false;
         Cat::validate();
     };
@@ -45,7 +45,7 @@ public:
         if(!validateName(newName)){
             throw std::out_of_range("The cat class must have a name");
         }
-        Cat::name = newName;
+        setName(newName);
         Cat::isCatFixed = newIsFixed;
         Cat::validate();
     };

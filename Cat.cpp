@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///         University of Hawaii, College of Engineering
-/// @brief  ee205_lab_08d_animal_farm_2 - EE 205 - Spr 2022
+/// @brief  ee205_lab_08d_animal_farm_3 - EE 205 - Spr 2022
 ///
 /// @file cat.cpp
-/// @version 1.0
+/// @version 3.0
 ///
 /// @author Kobe Uyeda <kobek@hawaii.edu>
 /// @date   9_Apr_2022
@@ -11,11 +11,9 @@
 
 #include "Cat.h"
 #include "config.h"
-#include "reportCats.h"
 #include <stdexcept>
 #include <iostream>
 #include <iomanip>
-#include <cassert>
 
 #define FORMAT_LINE(className, member) std::cout << std::setw(8) << (className) << std::setw(20) << (member) << std::setw(52)
 
@@ -52,6 +50,9 @@ bool Cat::validate() const noexcept {
         std::cout << error.what() << std::endl;
         return false;
     }
+    #ifdef DEBUG
+        std::cout << CAT_FILE_NAME << ": Cat has been validated " << name << std::endl;
+    #endif
     return true;
 }
 
