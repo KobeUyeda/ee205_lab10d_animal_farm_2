@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 ///         University of Hawaii, College of Engineering
-/// @brief  ee205_lab_08d_animal_farm_2 - EE 205 - Spr 2022
+/// @brief  ee205_lab_08d_animal_farm_3 - EE 205 - Spr 2022
 ///
 /// @file animal.h
-/// @version 1.0
+/// @version 3.0
 ///
 /// @author Kobe Uyeda <kobek@hawaii.edu>
 /// @date   21_Apr_2022
@@ -28,12 +28,12 @@ private:
 
 // Constructors
 public:
-    Animal(const Weight::t_weight newMaxWeight,
+    Animal(Weight::t_weight newMaxWeight,
            const std::string &newClassification,
            const std::string &newSpecies);
-    Animal (const genderType newGender,
-            const Weight::t_weight newWeight,
-            const Weight::t_weight newMaxWeight,
+    Animal (genderType newGender,
+            Weight::t_weight newWeight,
+            Weight::t_weight newMaxWeight,
             const std::string &newClassification,
             const std::string &newSpecies);
 
@@ -47,7 +47,7 @@ public:
 
 // These are the setter methods
 public:
-    void setWeight(const Weight::t_weight newWeight);    // attribute: type typedef float
+    void setWeight(Weight::t_weight newWeight);    // attribute: type typedef float
 
 public:
     virtual std::string speak() const noexcept=0;        // returns a string defined in the inheritance of Animal
@@ -60,7 +60,7 @@ public:
     static bool validateSpecies(const std::string &checkSpecies) noexcept;
 
 protected:
-    void setGender(const genderType newGender);
+    void setGender(genderType newGender);
 
 private:
     static std::string leftTrim(const std::string &stringTrim);
