@@ -42,7 +42,7 @@ void SinglyLinkedList::push_front(Node *newNode) {
 
 }
 
-Node *SinglyLinkedList::pop_front() noexcept {
+Node* SinglyLinkedList::pop_front() noexcept {
     if(List::head != nullptr) {
         Node *deleteValue = List::head;
         List::head = List::head->next;
@@ -98,4 +98,7 @@ void SinglyLinkedList::dump() const noexcept {
         iterateThroughCat->dump();
         iterateThroughCat = iterateThroughCat->next;
     }
+    #ifdef DEBUG
+        std::cout << SINGLE_LINKED_LIST << ": Node is at the end" << std::endl;
+    #endif
 }

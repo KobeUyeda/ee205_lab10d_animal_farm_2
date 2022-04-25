@@ -60,6 +60,7 @@ void List::deleteAllNodes () noexcept{
                 std::cout << LIST_OBJECT << ": The cat Pointer has been deleted from the database " << std::endl;
             #endif
         }
+        iterateThroughCat = List::head;
     }
     #ifdef DEBUG
         std::cout << LIST_OBJECT << ": The whole database has been deleted " << std::endl;

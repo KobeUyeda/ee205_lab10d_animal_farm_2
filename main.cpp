@@ -10,10 +10,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <stdlib.h>
+#include <assert.h>
+#include <iostream>
+#include <exception>
 #include "Cat.h"
 #include "singleLinkedList.h"
 #include "config.h"
 #include "Gender.h"
+#include <memory>
+
 
 
 int main() {
@@ -26,14 +31,37 @@ int main() {
     catDB.push_front( new Cat( "Trin", Color::WHITE, true, genderType::FEMALE, 1.4 ) ) ;
     catDB.insert_after(catDB.get_first(), new Cat( "Chili", Color::GINGER, true,
                                                    genderType::MALE, 1.5 ) );
+    assert(catDB.size() == 6);
+    try{
+        catDB.push_front( new Cat( "Trin", Color::WHITE, true, genderType::FEMALE, 40 ) ) ;
+        assert(true == false);
+    }
+    catch (std::exception const& error){
+
+    }
+    try{
+        catDB.push_front( new Cat( "", Color::WHITE, true, genderType::FEMALE, 40 ) ) ;
+        assert(true == false);
+    }
+    catch (std::exception const& error){
+
+    }
+
     for( Animal* pAnimal = (Animal*)catDB.get_first() ; pAnimal != nullptr ; pAnimal =
                                                                                      (Animal*)List::get_next( (Node*)pAnimal ) ) {
         std::cout << pAnimal->speak() << std::endl;
     }
     catDB.validate() ;
     catDB.dump() ;
+    assert(catDB.empty() == false);
+    Cat* newFirstElement = (Cat*)catDB.pop_front();
+    assert(newFirstElement->getName() == "Chili");
+    catDB.dump();
+    std::cout << catDB.isSorted() << std::endl;
     catDB.deleteAllNodes() ;
     catDB.dump() ;
+    assert(catDB.empty());
+    assert(catDB.size() == 0);
     std::cout << "Done with " << MAIN_FILE_NAME << std::endl;
     return( EXIT_SUCCESS ) ;
 
