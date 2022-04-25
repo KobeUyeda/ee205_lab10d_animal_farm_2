@@ -40,12 +40,12 @@ private:
 public:
     // Defining the constructor of the class
     explicit Weight() noexcept;
-    explicit Weight( float newWeight );
+    explicit Weight( t_weight newWeight );
     explicit Weight( UnitOfWeight newUnitOfWeight ) noexcept;
-    explicit Weight( float newWeight, UnitOfWeight newUnitOfWeight );
-    explicit Weight( float newWeight, float newMaxWeight );
-    explicit Weight( UnitOfWeight newUnitOfWeight, float newMaxWeight );
-    explicit Weight( float newWeight, UnitOfWeight newUnitOfWeight, float newMaxWeight );
+    explicit Weight( t_weight newWeight, UnitOfWeight newUnitOfWeight );
+    explicit Weight( t_weight newWeight, t_weight newMaxWeight );
+    explicit Weight( UnitOfWeight newUnitOfWeight, t_weight newMaxWeight );
+    explicit Weight( t_weight newWeight, UnitOfWeight newUnitOfWeight, t_weight newMaxWeight );
 
 private:
     static float fromKilogramToPound(float kilogram) noexcept;

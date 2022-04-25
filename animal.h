@@ -12,13 +12,10 @@
 #pragma once
 #include "weight.h"
 #include "node.h"
+#include "Gender.h"
 #include "config.h"
 
 class Animal: public Node{
-public:
-    // Defining an enum only used with Animals and the inherited subclasses from animal
-    enum genderType{UNKNOWN_GENDER, MALE, FEMALE};
-
 public:
     // Used to define the Kingodm Name based on the classes
     static const std::string KINGDOM_NAME;

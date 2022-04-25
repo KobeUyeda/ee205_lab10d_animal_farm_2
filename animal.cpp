@@ -10,7 +10,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "animal.h"
+#include "weight.h"
 #include "node.h"
+#include "Gender.h"
+#include "config.h"
 #include <string>
 #include <algorithm>
 #include <iostream>
@@ -51,7 +54,7 @@ std::string Animal::getSpecies() const noexcept {
     return Animal::species;
 }
 
-Animal::genderType Animal::getGender() const noexcept {
+genderType Animal::getGender() const noexcept {
     return Animal::gender;
 }
 
@@ -86,6 +89,7 @@ std::string Animal::rightTrim(const std::string &stringTrim) {
 bool Animal::validateClassification(const std::string &checkClassification) noexcept {
     std::string validateString = Animal::rightTrim(Animal::leftTrim(checkClassification));
     if(validateString.length() == 0){
+        std::cout << ANIMAL_OBJECT << ": The classification name is not valid" << std::endl;
         return false;
     }
     return true;
@@ -94,6 +98,7 @@ bool Animal::validateClassification(const std::string &checkClassification) noex
 bool Animal::validateSpecies(const std::string &checkSpecies) noexcept {
     std::string validateString = Animal::rightTrim(Animal::leftTrim(checkSpecies));
     if(validateString.length() == 0){
+        std::cout << ANIMAL_OBJECT << ": The species name is not valid" << std::endl;
         return false;
     }
     return true;

@@ -10,16 +10,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#define DATABASE_FILE_NAME    "catDatabase.cpp"
 #define CAT_FILE_NAME         "cat.cpp"
-#define ADD_CATS_FILE_NAME    "addCats.cpp"
-#define REPORT_CATS_FILE_NAME "repoprtCats.cpp"
+#define LIST_OBJECT           "list.cpp"
+#define SINGLE_LINKED_LIST    "singleLinkedlist.cpp"
 #define UPDATE_CATS_FILE_NAME "updateCats.cpp"
 #define NODE_OBJECT           "node.cpp"
-#define DELETE_CATS_FILE_NAME "deleteCats.cpp"
+#define ANIMAL_OBJECT           "animal.cpp"
 #define MAIN_FILE_NAME        "main.cpp"
 
-enum color{BLACK, WHITE, RED, BLUE, GREEN, PINK};
 enum breedType{UNKOWN_BREED, MAINE_COON, MANX, SHORTHAIR, PERSIAN, SPHYNX};
-typedef float Weight;
-

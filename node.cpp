@@ -28,7 +28,7 @@ bool Node::validate() const noexcept{
 }
 
 bool Node::operator>(const Node &rightSide) const noexcept {
-    compareByAddress(this, &rightSide);
+    return compareByAddress(this, &rightSide);
 }
 
 void Node::dump() const noexcept {
