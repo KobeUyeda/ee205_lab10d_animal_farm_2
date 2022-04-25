@@ -9,79 +9,60 @@
 /// @date   9_Apr_2022
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <assert.h>
 #include <stdlib.h>
-#include "addCats.h"
-#include "deleteCats.h"
-#include "reportCats.h"
-#include "catDatabase.h"
+#include <assert.h>
+#include <iostream>
+#include <exception>
+#include "Cat.h"
+#include "singleLinkedList.h"
 #include "config.h"
+#include "Gender.h"
+#include <memory>
 
-#define SUCCESS true
 
-#define STRING_FIFTY_CHARACTERS     "543290605644487098442288957842892578701236285adfad"
-#define EMPTY_STRING                ""
 
 int main() {
-    std::cout << "Starting Animal Farm 2" << std::endl;
-    // Generates a few cats in the database
-    addCat(new Cat( "Loki", MALE, PERSIAN, 8.5)) ;
-    addCat(new Cat( "Milo", MALE, MANX, 7.0)) ;
-    addCat(new Cat( "Bella", FEMALE, MAINE_COON, 18.2 )) ;
-    addCat(new Cat( "Kali", FEMALE, SHORTHAIR, 9.2 )) ;
-    addCat(new Cat( "Trin", FEMALE, MANX, 12.2 )) ;
-
-#ifdef DEBUG
-    // Testing the addCat function validators
-    try {
-        addCat(new Cat(STRING_FIFTY_CHARACTERS, MALE, SHORTHAIR, 0));       // Should Fail the weight can not be 0
-        assert(true==false);
-    } catch (std::exception const& error){
+    std::cout << "Starting " << MAIN_FILE_NAME << std::endl ;
+    SinglyLinkedList catDB ;
+    catDB.push_front( new Cat( "Loki", Color::CREAM, true, genderType::MALE, 1.0 ) ) ;
+    catDB.push_front( new Cat( "Milo", Color::BLACK, true, genderType::MALE, 1.1 ) ) ;
+    catDB.push_front( new Cat( "Bella", Color::BROWN, true, genderType::FEMALE, 1.2 ) ) ;
+    catDB.push_front( new Cat( "Kali", Color::CALICO, true, genderType::FEMALE, 1.3 ) ) ;
+    catDB.push_front( new Cat( "Trin", Color::WHITE, true, genderType::FEMALE, 1.4 ) ) ;
+    catDB.insert_after(catDB.get_first(), new Cat( "Chili", Color::GINGER, true,
+                                                   genderType::MALE, 1.5 ) );
+    assert(catDB.size() == 6);
+    try{
+        catDB.push_front( new Cat( "Trin", Color::WHITE, true, genderType::FEMALE, 40 ) ) ;
+        assert(true == false);
+    }
+    catch (std::exception const& error){
 
     }
-    try {
-        addCat(new Cat(EMPTY_STRING, UNKNOWN_GENDER, SHORTHAIR, 10));       // Should Fail the Name is an empty string
-        assert(true==false);
-    } catch (std::exception const& error){
+    try{
+        catDB.push_front( new Cat( "", Color::WHITE, true, genderType::FEMALE, 40 ) ) ;
+        assert(true == false);
+    }
+    catch (std::exception const& error){
 
     }
 
-    // Finding a Cat and print
-    Cat* catIndex = findCatByName("Chili");
-    assert(catIndex == nullptr);
-    addCat(new Cat( "Chili", FEMALE, MANX, 12.2 )) ;
-    catIndex = findCatByName("Chili");
-    catIndex->print();
-
-    // Update Cat testing
-    assert(catIndex->setCatFixed() == SUCCESS);
-    assert(catIndex->setWeight(55.5) == SUCCESS);
-    assert(catIndex->setWeight(0) != SUCCESS);
-    assert(catIndex->setName("LINKER") == SUCCESS);
-    assert(catIndex->setName("") != SUCCESS);
-    assert(catIndex->setGender(MALE) == SUCCESS);
-    assert(catIndex->setGender(UNKNOWN_GENDER) != SUCCESS);
-    assert(catIndex->setBreed(MANX) == SUCCESS);
-    assert(catIndex->setBreed(UNKOWN_BREED) != SUCCESS);
-
-    // Delete Cat testing
-    assert(deleteCat(catIndex) == SUCCESS);
-
-#endif
-
-    printAllCats() ;
-    Cat* kali = findCatByName( "Kali" ) ;
-    assert( kali->setName("") != SUCCESS ) ; // string is empty cat name should fail
-    kali->print();
-    assert( kali->setName("Capulet") == SUCCESS ) ;
-    assert( kali->setWeight(9.9) == SUCCESS ) ;
-    assert( kali->setCatFixed() == SUCCESS ) ;
-    kali->print() ;
-    printAllCats() ;
-    deleteAllCats() ;
-    printAllCats() ;
-    assert(validateDatabase()==true);
-    std::cout << "Done with Animal Farm 2" << std::endl;
+    for( Animal* pAnimal = (Animal*)catDB.get_first() ; pAnimal != nullptr ; pAnimal =
+                                                                                     (Animal*)List::get_next( (Node*)pAnimal ) ) {
+        std::cout << pAnimal->speak() << std::endl;
+    }
+    catDB.validate() ;
+    catDB.dump() ;
+    assert(catDB.empty() == false);
+    Cat* newFirstElement = (Cat*)catDB.pop_front();
+    assert(newFirstElement->getName() == "Chili");
+    catDB.dump();
+    std::cout << catDB.isSorted() << std::endl;
+    catDB.deleteAllNodes() ;
+    catDB.dump() ;
+    assert(catDB.empty());
+    assert(catDB.size() == 0);
+    std::cout << "Done with " << MAIN_FILE_NAME << std::endl;
     return( EXIT_SUCCESS ) ;
 
 }
